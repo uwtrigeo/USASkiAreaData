@@ -1,0 +1,142 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; Optional: in case horizontal scroll appears
+}
+
+#map {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    width: 100%;
+}
+
+.info.map-title {
+    position: absolute;
+    width: 100%;
+    text-align: left;
+    left: 40px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+#slider {
+    position: fixed;
+    right: 4.5%;
+    bottom: 6%;
+    width: 15px;
+    height: 300px;
+    z-index: 1000; /* Adjust this as needed */
+}
+/* noUISlider numbers changed color to black */
+#slider .noUi-value {
+    color: black;
+ }
+
+#slider1 {
+position: fixed;
+right: 4.5%;
+bottom: 6%;
+width: 15px;
+height: 300px;
+z-index: 1000; /* Adjust this as needed */
+}
+/* noUISlider numbers changed color to black */
+#slider1 .noUi-value {
+  color: black;
+}
+
+#slider2 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }  
+/* noUISlider numbers changed color to black */
+#slider2 .noUi-value {
+  color: black;
+}
+
+#slider3 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }  
+/* noUISlider numbers changed color to black */
+#slider3 .noUi-value {
+  color: black;
+}
+
+#slider4 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider4 .noUi-value {
+  color: black;
+}
+#slider5 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider5 .noUi-value {
+  color: black;
+}
+#slider6 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider6 .noUi-value {
+  color: black;
+}
+
+#slider7 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider7 .noUi-value {
+  color: black;
+}
+#slider8 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider8 .noUi-value {
+  color: black;
+}
+
+

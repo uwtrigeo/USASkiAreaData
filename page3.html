@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+  <!-- no UI slider -->
+  <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.4/distribute/nouislider.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.4/distribute/nouislider.min.js"></script>
+  <!-- windy map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- grouped layer control -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
+  <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+
+</head>
+<body>
+  <!-- link that loads the ski resort data from an external file -->
+  <script type="text/javascript" src="data/ski_stats.js"></script>
+  
+  <!-- Navigation bar to access other maps -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">My Ski Resort</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page1.html">Page 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page2.html">Page 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page3.html"><b>Snowfall, Lifts, Runs</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page4.html">Page 4</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page5.html">Page 5</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page6.html">Page 6</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="page7.html">Page 7</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div id="slider1"></div>
+  <div id="slider2"></div>
+  <div id="slider3"></div>
+  <div id="slider4"></div>
+  <div id="map"></div>
+  
+
+  <script>
+    // Add basemap
+    // Stamen_TonerLite
+    var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 0,
+        maxZoom: 20,
+        ext: 'png'
+    });
+    // OpenStreetMap layer
+    var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+    // OpenTopoMap layer
+    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+    // Esri Satellite
+    var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    // Initialize map
+    var map = L.map('map', {
+      center: [37.0902, -95.7129],
+      zoom: 5
+    });
+
+    // Function to create overlay map
+    function createMap(popUpDesc, skiStatsColumn, sliderNumber, valuesForsliderSize, circleValues) {      
+
+      // Initialize noUiSlider for size layer
+      var sliderSize = document.getElementById(sliderNumber);
+      var lastValue = valuesForsliderSize[valuesForsliderSize.length - 1];
+      console.log(lastValue);
+
+      var format = {
+        to: function (value) {
+          return valuesForsliderSize[Math.round(value)];
+        },
+        from: function (value) {
+          return valuesForsliderSize.indexOf(Number(value));
+        }
+      };
+
+      var slider = document.getElementById(sliderNumber);
+      noUiSlider.create(slider, {
+        start: [0, lastValue],
+        orientation: 'vertical',
+        // A linear range from 0 to 15 (16 values)
+        range: { min: 0, max: valuesForsliderSize.length - 1 },
+        // Steps of 1
+        step: 1,
+        tooltips: true,
+        format: format,
+        pips: { mode: 'steps', format: format },
+      });
+
+      // The display values can be used to control the slider
+      sliderSize.noUiSlider.set(['0', lastValue]);
+
+      // Initialize skiStats as an empty L.geoJSON layer
+      var newMap = L.geoJSON();
+
+      sliderSize.noUiSlider.on('update', function (values, handle) {
+        var minValue = parseFloat(values[0]);
+        var maxValue = parseFloat(values[1]);
+
+        // Clear the current map layer
+        newMap.clearLayers();
+
+        // Average Snowfall
+        L.geoJSON(ski_stats, {
+          filter: function (feature) {
+            // Only show features within the selected range
+            return feature.properties[skiStatsColumn] >= minValue && feature.properties[skiStatsColumn] <= maxValue;
+          },
+          pointToLayer: function (feature, latlng) {
+            // CircleSize & circleColor pulled from circleValues variable
+            var circleSize;
+            if (feature.properties[skiStatsColumn] == null) circleSize = 2;
+            else if (feature.properties[skiStatsColumn] <= circleValues[0]) circleSize = 4;
+            else if (feature.properties[skiStatsColumn] <= circleValues[1]) circleSize = 6;
+            else if (feature.properties[skiStatsColumn] <= circleValues[2]) circleSize = 8;
+            else if (feature.properties[skiStatsColumn] <= circleValues[3]) circleSize = 10;
+            else if (feature.properties[skiStatsColumn] <= circleValues[4]) circleSize = 14;
+            else if (feature.properties[skiStatsColumn] > circleValues[4]) circleSize = 18;
+            else circleSize = 0;
+
+            var circleColor;
+            if (feature.properties[skiStatsColumn] == null) circleColor = '#808080';
+            else if (feature.properties[skiStatsColumn] <= circleValues[0]) circleColor = '#3288bd';
+            else if (feature.properties[skiStatsColumn] <= circleValues[1]) circleColor = '#99d594';
+            else if (feature.properties[skiStatsColumn] <= circleValues[2]) circleColor = '#e6f598';
+            else if (feature.properties[skiStatsColumn] <= circleValues[3]) circleColor = '#fee08b';
+            else if (feature.properties[skiStatsColumn] <= circleValues[4]) circleColor = '#fc8d59';
+            else if (feature.properties[skiStatsColumn] > circleValues[4]) circleColor = '#d53e4f';
+            else circleColor = '#737373';
+
+            var marker = L.circleMarker(latlng, { radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7 });
+            marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> " + popUpDesc + ": </b>" + feature.properties[skiStatsColumn] + "</p>");
+            return marker;
+          }
+        }).addTo(newMap);
+      });
+
+      return newMap;
+    };
+
+
+
+    // Map Overlays:
+    var popUpDesc = 'Average Snowfall (inches)';
+    var skiStatsColumn = 'Season_Average';
+    var sliderNumber = 'slider1';
+    var valuesForsliderSize = [0, 100, 150, 200, 250, 300, 400, 450, 550, 600, 650, 700];
+    var circleValues = [100, 200, 300, 400, 500];
+
+    var snowfallAverage = createMap(popUpDesc, skiStatsColumn, sliderNumber, valuesForsliderSize, circleValues);
+    var skiLifts = createMap('Total Lifts','lifts','slider2', [0, 2, 4, 6, 8, 10, 15, 20, 25, 30, 40, 50], [2, 6, 10, 15, 20]);
+    var skiRuns = createMap('Total Runs','runs','slider3', [0, 5, 10, 20, 30, 40, 60, 80, 100, 150, 300, 350], [10, 20, 50, 100, 150]);
+    
+
+
+    // Layer control groups
+    // Base maps
+    var baseMaps = {
+      "Stamen Toner Lite": Stamen_TonerLite,
+      "OpenStreetMap": OSM,
+      "OSM Topo": OpenTopoMap,
+      "Esri World Imagery": Esri_WorldImagery
+    };
+
+    // Overlays
+    var overlayMaps = {
+      "Average Snowfall": snowfallAverage,
+      "Lifts": skiLifts,
+      "Runs": skiRuns,
+      
+    };
+
+    // Grouped Overlays
+    var groupedOverlays = {
+      "Ski Resort": {
+        "Average Snowfall": snowfallAverage,
+        "Lifts": skiLifts,
+        "Runs": skiRuns,
+        
+      }
+      
+    };
+    var options = {
+    // Make the "Landmarks" group exclusive (use radio inputs)
+    exclusiveGroups: ["Ski Resort"],
+    // Show a checkbox next to non-exclusive group labels for toggling all
+    groupCheckboxes: true,
+    collapsed: false
+    };
+
+    // Keep track of active overlays and show slider with relevant layer
+    var activeOverlays = new Set();
+
+    // Mapping between overlay names and slider IDs
+    var overlaySliderMap = {
+      'Average Snowfall': 'slider1',
+      'Lifts': 'slider2',
+      'Runs': 'slider3',
+        
+    };
+
+    // Function to handle the display style of the sliders
+    function handleSliderDisplay(overlayName, displayStyle) {
+      var sliderId = overlaySliderMap[overlayName];
+      if (sliderId) {
+        document.getElementById(sliderId).style.display = displayStyle;
+      }
+    }
+
+    // Function to hide all sliders except the one associated with the given overlay
+    function hideOtherSliders(overlayName) {
+      for (var overlay in overlaySliderMap) {
+        if (overlay !== overlayName) {
+          handleSliderDisplay(overlay, 'none');
+        }
+      }
+    }
+
+    map.on('overlayadd', function(eventLayer) {
+      activeOverlays.add(eventLayer.name);
+      handleSliderDisplay(eventLayer.name, 'block');
+      hideOtherSliders(eventLayer.name);
+    });
+
+    map.on('overlayremove', function(eventLayer) {
+      activeOverlays.delete(eventLayer.name);
+      handleSliderDisplay(eventLayer.name, 'none');
+    });
+
+
+    // Layer control
+    var layerControl = L.control.groupedLayers(baseMaps, groupedOverlays, options).addTo(map);
+
+    // Add base layer to the map
+    baseMaps["Stamen Toner Lite"].addTo(map);
+    overlayMaps["Average Snowfall"].addTo(map);
+    
+    // add scale bar
+    L.control.scale().addTo(map);
+
+    // Define a new control for the title
+    var title = L.control({position: 'topleft'});
+
+    // When the control is added to the map, insert a div with your title
+    title.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info map-title');
+        div.innerHTML = '<h4>Average Snowfall, Lifts, Runs</h4><p>Click on a resort to see name and details.</p>';
+        return div;
+    };
+
+    // Add the title to the map
+    title.addTo(map);
+
+
+
+
+  </script>

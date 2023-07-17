@@ -23,7 +23,7 @@
 </head>
 <body>
   <!-- link that loads the ski resort data from an external file -->
-  <script type="text/javascript" src="data/nsaaVisits.js"></script>
+  <script type="text/javascript" src="data/states.js"></script>
   
   <!-- Navigation bar to access other maps -->
   <header>
@@ -56,21 +56,13 @@
             <a class="nav-link" href="page6.html">Page 6</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="page7.html"><b>Page 7</b></a>
+            <a class="nav-link" href="page7.html"><b>State Stats</b></a>
           </li>
         </ul>
       </div>
     </nav>
   </header>
-  <div id="slider"></div>
-  <div id="slider1"></div>
-  <div id="slider2"></div>
-  <div id="slider3"></div>
-  <div id="slider4"></div>
-  <div id="slider5"></div>
-  <div id="slider6"></div>
-  <div id="slider7"></div>
-  <div id="slider8"></div>
+  
   <div id="map"></div>
   <script>
     var Stamen_TonerLite = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
@@ -79,70 +71,131 @@
 	  minZoom: 0,
 	  maxZoom: 20,
 	  ext: 'png'
-});
- // OpenStreetMap layer
- var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-// OpenTopoMap layer
-var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-	  maxZoom: 17,
-	  attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-});
-// Esri Satellite
-var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
- });
+    });
+    // OpenStreetMap layer
+    var OSM = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+    // OpenTopoMap layer
+    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+    // Esri Satellite
+    var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    // Initialize map
+    var map = L.map('map', {
+        center: [37.0902, -95.7129],
+        zoom: 5,
+        
+    });
+
+    // Create Map function
+    function createMap(popUpDesc, skiStatsColumn, fillSizes) {
+
+      // Initialize skiStats as an empty L.geoJSON layer
+      var newMap = L.geoJSON();
+
+      // Clear the current map layer
+      newMap.clearLayers();
+
+      // State ski resort count layer
+      L.geoJSON(states, {
+        style: function (feature) {
+          var fillColor;
+            if (feature.properties[skiStatsColumn] == null) fillColor = '#808080';
+            else if (feature.properties[skiStatsColumn] <= fillSizes[0]) fillColor = '#3288bd';
+            else if (feature.properties[skiStatsColumn] <= fillSizes[1]) fillColor = "#99d594";
+            else if (feature.properties[skiStatsColumn] <= fillSizes[2]) fillColor = "#e6f598";
+            else if (feature.properties[skiStatsColumn] <= fillSizes[3]) fillColor = "#fee08b";
+            else if (feature.properties[skiStatsColumn] <= fillSizes[4]) fillColor = "#fc8d59";
+            else if (feature.properties[skiStatsColumn] > fillSizes[4])  fillColor = "#d53e4f";
+            else fillColor = "#737373";
+
+          return {
+            color: "#000",
+            weight: 0.5,
+            opacity: 1,
+            fillOpacity: 0.8,
+            fillColor: fillColor,
+          };
+      },
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup("<b>State: </b>" + feature.properties.NAME + "<br><b> " + popUpDesc + ": </b>" + feature.properties[skiStatsColumn] );
+      }
+      }).addTo(newMap);
 
 
- 
-// State ski resort count layer
-var stateStats = L.geoJSON(nsaaVisits, {
-  style: function (feature) {
-    var fillColor;
-      if (feature.properties.Totals == null) fillColor = '#737373';
-      else if (feature.properties.Totals <= 100) fillColor = '#99d594';
-      else if (feature.properties.Totals <= 150) fillColor = "#e6f598";
-      else if (feature.properties.Totals <= 200) fillColor = "#fee08b";
-      else if (feature.properties.Totals <= 400) fillColor = "#fc8d59";
-      else if (feature.properties.Totals > 400)  fillColor = "#d53e4f";
-      else fillColor = "#737373";
-
-    return {
-      color: "#000",
-      weight: 0.5,
-      opacity: 1,
-      fillOpacity: 0.8,
-      fillColor: fillColor,
+    return newMap;
+    
     };
-},
-onEachFeature: function (feature, layer) {
-  layer.bindPopup("<b>NSAA Region: </b>" + feature.properties.NSAA_Resort_Regions + "<br><b>Skier visits: </b>" + feature.properties.Totals + " million");
-}
-});
 
-// Initialize map
-var map = L.map('map', {
-    center: [50.88629, -106.58909],
-    zoom: 4,
-    layers: [Stamen_TonerLite, stateStats]
-});
-
-var layercontrol = L.control.layers({
-    "Stamen Toner Lite": Stamen_TonerLite,    
-    "OpenStreetMap": OSM,
-    "OSM Topo": OpenTopoMap,
-    "Esri World Imagery": Esri_WorldImagery
-    }, 
-    {
-    "Skier visits":  stateStats  
-    },
-    {collapsed: false}
-    ).addTo(map);
+    var stateResorts = createMap("Ski Resorts", "numResorts", [5, 10, 20, 30, 40]);
+    var stateAcres = createMap("Total Acres", "skiAcres", [200, 500, 5000, 20000, 30000]);
+    var stateRuns = createMap("Total Runs", "Trails", [50, 200, 1000, 1100, 1200]);
+    var stateLifts = createMap("Total Lifts", "Lifts", [20, 50, 100, 200, 300]);
 
 
 
-// add scale bar
-L.control.scale().addTo(map);
+    // Base maps
+    var baseMaps = {
+          "Stamen Toner Lite": Stamen_TonerLite,
+          "OpenStreetMap": OSM,
+          "OSM Topo": OpenTopoMap,
+          "Esri World Imagery": Esri_WorldImagery
+        };
+
+    // Overlay maps
+    var overlayMaps = {
+          "Ski Area Size": stateResorts,
+          "Total Acres": stateAcres,
+          "Total Runs": stateRuns,
+          "Total Lifts": stateLifts
+          
+        };
+
+    // Grouped Overlays
+    var groupedOverlays = {
+          "State Stats": {
+            "Number of resorts": stateResorts,
+            "Total Acres": stateAcres,
+            "Total Runs": stateRuns,
+            "Total Lifts": stateLifts
+            
+          }
+        };
+
+        var options = {
+          // Make the "Landmarks" group exclusive (use radio inputs)
+          exclusiveGroups: ["State Stats"],
+          // Show a checkbox next to non-exclusive group labels for toggling all
+          groupCheckboxes: true,
+          collapsed: false
+        };
+
+    // Layer control
+    L.control.groupedLayers(baseMaps, groupedOverlays, options).addTo(map);
+
+    // Add base layer and overlay to the map
+    baseMaps["Stamen Toner Lite"].addTo(map);
+    overlayMaps["Ski Area Size"].addTo(map);
+
+    // add scale bar
+    L.control.scale().addTo(map);
+      
+    // Define a new control for the title
+    var title = L.control({position: 'topleft'});
+    // Add title
+    title.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info map-title');
+            div.innerHTML = '<h4>State Stats</h4><p>Click on a resort to see name and details.</p>';
+            return div;
+        };
+    // Add the title to the map
+    title.addTo(map);
+
   </script>

@@ -19,6 +19,9 @@
   <!-- grouped layer control -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
   <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+  <!-- leaflet legend -->
+  <link rel="stylesheet" href="legend/leaflet.legend.css" />
+	<script src="legend/leaflet.legend.js"></script>
 
 </head>
 <body>
@@ -321,7 +324,38 @@
     // Add the title to the map
     title.addTo(map);
 
+    // Add legend
+    var baseLegendConfig = {
+      type: "circle",
+      color: "#000",
+      fill: true,
+      fillOpacity: "0.8",
+      weight: 1,
+    };
 
+    var legendColors = ["#d53e4f", "#fc8d59", "#fee08b", "#e6f598", "#99d594","#3288bd"];
+    var legendRadii = [18, 14, 10, 8, 6, 4, 4];
+    var legendLabels = ["Highest Rank", "", "", "", "", "Lowest Rank"];
+
+    var legends = legendColors.map(function(color, index) {
+      return {
+        ...baseLegendConfig,
+        fillColor: color,
+        radius: legendRadii[index],
+        label: legendLabels[index],
+      };
+    });
+
+    var Legend = L.control.Legend({
+      position: "bottomleft",
+      title: "Ranking",
+      titleFontSize: 12,
+      opacity:0.50,
+      symbolWidth: 45,
+      symbolHeight: 35,
+      collapsed: false,
+      legends: legends,
+    }).addTo(map);
 
 
   </script>

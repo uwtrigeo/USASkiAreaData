@@ -19,6 +19,9 @@
   <!-- grouped layer control -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
   <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+  <!-- leaflet legend -->
+  <link rel="stylesheet" href="legend/leaflet.legend.css" />
+	<script src="legend/leaflet.legend.js"></script>
 
 </head>
 <body>
@@ -184,7 +187,7 @@
     baseMaps["Stamen Toner Lite"].addTo(map);
     overlayMaps["Ski Area Size"].addTo(map);
 
-    // add scale bar
+    // Add scale bar
     L.control.scale().addTo(map);
       
     // Define a new control for the title
@@ -198,4 +201,36 @@
     // Add the title to the map
     title.addTo(map);
 
+    // Add legend
+    var baseLegendConfig = {
+      type: "polygon",
+      color: "#000",
+      fill: true,
+      fillOpacity: "0.8",
+      weight: 1,
+    };
+
+    var legendColors = ["#3288bd", "#99d594", "#e6f598", "#fee08b", "#fc8d59", "#d53e4f", "#737373"];
+    var legendLabels = ["Smallest", "", "", "", "", "Largest", "null"];
+
+    var legends = legendColors.map(function(color, index) {
+      return {
+        ...baseLegendConfig,
+        fillColor: color,
+        sides: 4,
+        label: legendLabels[index],
+      };
+    });
+
+    var Legend = L.control.Legend({
+      position: "bottomleft",
+      title: "Legend",
+      opacity:0.50,
+      symbolWidth: 35,
+      symbolHeight: 25,
+      collapsed: false,
+      legends: legends,
+    }).addTo(map);
+
   </script>
+</body>

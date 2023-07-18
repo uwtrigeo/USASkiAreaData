@@ -1,176 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page 1</title>
-  <!-- Mapbox -->
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-  <!-- Mapbox Geocoder -->
-  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>  
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="index.html">USA Ski Resorts</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page1.html"><b>WA Avalanche Prone Areas</b></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page2.html">Size, Elevation, and Vertical Drop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page3.html">Snowfall, Lifts, Runs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page4.html">Terrain</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page5.html">Resort Scores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page6.html">Resort Rankings</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="page7.html">State Stats</a>
-          </li>
-        </ul>
-      </div>
-    </nav>    
-  </header>
-  <div id="map"></div>
-  <nav id="menu"></nav>
-  
-  
-  <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoidHJpZ2VvIiwiYSI6ImNsZHZ5YW9tYjAyODAzdXM4bHlwbjhnNm4ifQ.kHTDG7XT7noaK7zzYwHYbA'; // replace this with your access token
-
-    // Map
-    const map = new mapboxgl.Map({
-        container: 'map', // id of your map container
-        style: 'mapbox://styles/mapbox/streets-v12', // your map style
-        center: [-121.47, 46.93], // starting position
-        zoom: 12 // starting zoom,
-
-    });
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 1</title>
+    <!-- Mapbox -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <!-- Mapbox Geocoder -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>  
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">USA Ski Resorts</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page1.html"><b>WA Avalanche Prone Areas</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page2.html">Size, Elevation, and Vertical Drop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page3.html">Snowfall, Lifts, Runs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page4.html">Terrain</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page5.html">Resort Scores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page6.html">Resort Rankings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="page7.html">State Stats</a>
+            </li>
+          </ul>
+        </div>
+      </nav>    
+    </header>
+    <div id="map"></div>
+    <nav id="menu"></nav>
     
+    
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoidHJpZ2VvIiwiYSI6ImNsZHZ5YW9tYjAyODAzdXM4bHlwbjhnNm4ifQ.kHTDG7XT7noaK7zzYwHYbA'; // replace this with your access token
 
-    // Add Crystal & Baker to map
-    map.on('load', () => {
-      // Avalanche prone areas
-      map.addSource('avalanche', {
-        type: 'geojson',
-        data: 'data/av_prone.json'
+      // Map
+      const map = new mapboxgl.Map({
+          container: 'map', // id of your map container
+          style: 'mapbox://styles/mapbox/streets-v12', // your map style
+          center: [-121.47, 46.93], // starting position
+          zoom: 12 // starting zoom,
+
       });
-      map.addLayer({
-        id: 'avalanche',
-        type: 'fill',
-        source: 'avalanche',
-        layout: {// Make the layer visible by default.
-        'visibility': 'visible'},
-        paint: {
-          'fill-color': 'red',
-          'fill-opacity': 0.8
-        }
-      });
-    });
+      
 
-    // Add Mission, White Pass to map
-    map.on('load', () => {
-      // Avalanche prone areas
-      map.addSource('MissionWhiteAvProne', {
-        type: 'geojson',
-        data: 'data/MissionWhite.json'
-      });
-      map.addLayer({
-        id: 'MissionWhiteAvProne',
-        type: 'fill',
-        source: 'MissionWhiteAvProne',
-        layout: {// Make the layer visible by default.
-        'visibility': 'visible'},
-        paint: {
-          'fill-color': 'red',
-          'fill-opacity': 0.8
-        }
-      });
-    });
-
-    // Add Snoqualmie & Stevens to map
-    map.on('load', () => {
-      // Avalanche prone areas
-      map.addSource('SnoqualmieStevensAvProne', {
-        type: 'geojson',
-        data: 'data/SnoqStevens.json'
-      });
-      map.addLayer({
-        id: 'SnoqualmieStevensAvProne',
-        type: 'fill',
-        source: 'SnoqualmieStevensAvProne',
-        layout: {// Make the layer visible by default.
-        'visibility': 'visible'},
-        paint: {
-          'fill-color': 'red',
-          'fill-opacity': 0.8
-        }
-      });
-    });
-
-    // Search bar
-    map.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken
-      }),
-      'top-left' // Position the control at the top left corner
-    );
-
-    // Set the initial pitch and bearing of the map
-    map.on('load', function() {
-      map.setPitch(45); // Set the pitch to 45 degrees
-      map.setBearing(0); // Set the bearing to 45 degrees
-    });
-
-    // Add zoom and rotation controls to the map.
-    map.addControl(new mapboxgl.NavigationControl());
-
-    // Add geolocate control to the map.
-    map.addControl(new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        }
-    }));
-
-    // Fullscreen
-    map.addControl(new mapboxgl.FullscreenControl());
-
-    // 3D Terrain
-    map.on('style.load', () => {
-        map.addSource('mapbox-dem', {
-        'type': 'raster-dem',
-        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 512,
-        'maxzoom': 14
+      // Add Crystal & Baker to map
+      map.on('load', () => {
+        // Avalanche prone areas
+        map.addSource('avalanche', {
+          type: 'geojson',
+          data: 'data/av_prone.json'
         });
-        // add the DEM source as a terrain layer with exaggerated height
-        map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+        map.addLayer({
+          id: 'avalanche',
+          type: 'fill',
+          source: 'avalanche',
+          layout: {// Make the layer visible by default.
+          'visibility': 'visible'},
+          paint: {
+            'fill-color': 'red',
+            'fill-opacity': 0.8
+          }
         });
+      });
 
-    
+      // Add Mission, White Pass to map
+      map.on('load', () => {
+        // Avalanche prone areas
+        map.addSource('MissionWhiteAvProne', {
+          type: 'geojson',
+          data: 'data/MissionWhite.json'
+        });
+        map.addLayer({
+          id: 'MissionWhiteAvProne',
+          type: 'fill',
+          source: 'MissionWhiteAvProne',
+          layout: {// Make the layer visible by default.
+          'visibility': 'visible'},
+          paint: {
+            'fill-color': 'red',
+            'fill-opacity': 0.8
+          }
+        });
+      });
 
-  
-    
-    
+      // Add Snoqualmie & Stevens to map
+      map.on('load', () => {
+        // Avalanche prone areas
+        map.addSource('SnoqualmieStevensAvProne', {
+          type: 'geojson',
+          data: 'data/SnoqStevens.json'
+        });
+        map.addLayer({
+          id: 'SnoqualmieStevensAvProne',
+          type: 'fill',
+          source: 'SnoqualmieStevensAvProne',
+          layout: {// Make the layer visible by default.
+          'visibility': 'visible'},
+          paint: {
+            'fill-color': 'red',
+            'fill-opacity': 0.8
+          }
+        });
+      });
 
-  </script> 
-</body>
+      // Search bar
+      map.addControl(
+        new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken
+        }),
+        'top-left' // Position the control at the top left corner
+      );
+
+      // Set the initial pitch and bearing of the map
+      map.on('load', function() {
+        map.setPitch(45); // Set the pitch to 45 degrees
+        map.setBearing(0); // Set the bearing to 45 degrees
+      });
+
+      // Add zoom and rotation controls to the map.
+      map.addControl(new mapboxgl.NavigationControl());
+
+      // Add geolocate control to the map.
+      map.addControl(new mapboxgl.GeolocateControl({
+          positionOptions: {
+              enableHighAccuracy: true
+          }
+      }));
+
+      // Fullscreen
+      map.addControl(new mapboxgl.FullscreenControl());
+
+      // 3D Terrain
+      map.on('style.load', () => {
+          map.addSource('mapbox-dem', {
+          'type': 'raster-dem',
+          'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          'tileSize': 512,
+          'maxzoom': 14
+          });
+          // add the DEM source as a terrain layer with exaggerated height
+          map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+          });
+      
+    </script> 
+  </body>
+</html>

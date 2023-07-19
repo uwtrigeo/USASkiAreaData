@@ -74,6 +74,9 @@
   <div id="slider6"></div>
   <div id="slider7"></div>
   <div id="slider8"></div>
+  <div id="slider9"></div>
+  <div id="slider10"></div>
+  <div id="slider11"></div>
   <div id="map"></div>
   
 
@@ -204,6 +207,9 @@
     var circleValues = [1, 5, 10, 14, 18];
 
     var totalScore = createMap(popUpDesc, skiStatsColumn, sliderNumber, [0, 50, 70, 90, 110, 130, 150, 170, 190, 210, 235, 245], [40, 80, 120, 160, 200]);
+    var beginnerScore = createMap('Beginner Score', 'S_Beginner', 'slider9', [0, 10, 20, 30, 50, 70, 90, 110, 130, 150, 170, 190], [50, 80, 120, 160, 180]);
+    var intermediateScore = createMap('Intermediate Score', 'S_Intermediate', 'slider10', [0, 10, 20, 30, 50, 70, 90, 110, 130, 150, 170, 190], [50, 80, 120, 160, 180]);
+    var advancedScore = createMap('Advanced Score', 'S_Advanced', 'slider11', [0, 10, 20, 30, 50, 70, 90, 110, 130, 150, 170, 190], [50, 80, 120, 160, 180]);
     var summitScore = createMap('Summit Score', 'S_Summit', 'slider2', valuesForsliderSize, circleValues);
     var baseScore = createMap('Base Score', 'S_Base', 'slider3', valuesForsliderSize, circleValues);
     var verticalScore = createMap('Vertical Score', 'S_Vertical', 'slider4', valuesForsliderSize, circleValues);
@@ -226,6 +232,9 @@
     // Overlays
     var overlayMaps = {
       "Total Score": totalScore,
+      "Beginner Score": beginnerScore,
+      "Intermediate Score": intermediateScore,
+      "Advanced Score": advancedScore,
       "Summit Elevation Score": summitScore,
       "Base Elevation Score": baseScore,
       "Vertical Score": verticalScore,
@@ -239,6 +248,9 @@
     var groupedOverlays = {
       "Ski Resort": {
         "Total Score": totalScore,
+        "Beginner Score": beginnerScore,
+        "Intermediate Score": intermediateScore,
+        "Advanced Score": advancedScore,
         "Summit Elevation Score": summitScore,
         "Base Elevation Score": baseScore,
         "Vertical Score": verticalScore,
@@ -263,6 +275,9 @@
   // Mapping between overlay names and slider IDs
   var overlaySliderMap = {
     'Total Score': 'slider1',
+    'Beginner Score': 'slider9',
+    'Intermediate Score': 'slider10',
+    'Advanced Score': 'slider11',
     'Summit Elevation Score': 'slider2',
     'Base Elevation Score': 'slider3',
     'Vertical Score': 'slider4',

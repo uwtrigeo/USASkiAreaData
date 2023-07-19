@@ -125,6 +125,7 @@ z-index: 1000; /* Adjust this as needed */
 #slider7 .noUi-value {
   color: black;
 }
+
 #slider8 {
   position: fixed;
   right: 4.5%;
@@ -136,6 +137,48 @@ z-index: 1000; /* Adjust this as needed */
   
 /* noUISlider numbers changed color to black */
 #slider8 .noUi-value {
+  color: black;
+}
+
+#slider9 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider9 .noUi-value {
+  color: black;
+}
+
+#slider10 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider10 .noUi-value {
+  color: black;
+}
+
+#slider11 {
+  position: fixed;
+  right: 4.5%;
+  bottom: 6%;
+  width: 15px;
+  height: 300px;
+  z-index: 1000; /* Adjust this as needed */
+  }
+  
+/* noUISlider numbers changed color to black */
+#slider11 .noUi-value {
   color: black;
 }
 

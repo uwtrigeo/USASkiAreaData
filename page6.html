@@ -74,6 +74,9 @@
   <div id="slider6"></div>
   <div id="slider7"></div>
   <div id="slider8"></div>
+  <div id="slider9"></div>
+  <div id="slider10"></div>
+  <div id="slider11"></div>
   <div id="map"></div>
   
 
@@ -204,6 +207,9 @@
     var circleValues = [30, 90, 150, 210, 270];
 
     var totalScoreRank = createMap(popUpDesc, skiStatsColumn, sliderNumber, valuesForsliderSize, circleValues);
+    var beginnerScoreRank = createMap('Beginner Score', 'R_Beginner', 'slider9', valuesForsliderSize, circleValues);
+    var intermediateScoreRank = createMap('Intermediate Score', 'R_Intermediate', 'slider10', valuesForsliderSize, circleValues);
+    var advancedScoreRank = createMap('Advanced Score', 'R-Advanced', 'slider11', valuesForsliderSize, circleValues);
     var summitScoreRank = createMap('Summit Elevation Score', 'R_summit', 'slider2', valuesForsliderSize, circleValues);
     var baseScoreRank = createMap('Base Elevation Score', 'R_base', 'slider3', valuesForsliderSize, circleValues);
     var verticalScoreRank = createMap('Vertical Score', 'R_vertical', 'slider4', valuesForsliderSize, circleValues);
@@ -226,6 +232,9 @@
     // Overlays
     var overlayMaps = {
       "Total Rank": totalScoreRank,
+      "Beginner Rank": beginnerScoreRank,
+      "Intermediate Rank": intermediateScoreRank,
+      "Advanced Rank": advancedScoreRank,
       "Summit Elevation Rank": summitScoreRank,
       "Base Elevation Rank": baseScoreRank,
       "Vertical Rank": verticalScoreRank,
@@ -239,6 +248,9 @@
     var groupedOverlays = {
       "Ski Resort": {
         "Total Rank": totalScoreRank,
+        "Beginner Rank": beginnerScoreRank,
+        "Intermediate Rank": intermediateScoreRank,
+        "Advanced Rank": advancedScoreRank,
         "Summit Elevation Rank": summitScoreRank,
         "Base Elevation Rank": baseScoreRank,
         "Vertical Rank": verticalScoreRank,
@@ -263,6 +275,9 @@
   // Mapping between overlay names and slider IDs
   var overlaySliderMap = {
     "Total Rank": "slider1",
+    "Beginner Rank": "slider9",
+    "Intermediate Rank": "slider10",
+    "Advanced Rank": "slider11",
     "Summit Elevation Rank": "slider2",
     "Base Elevation Rank": "slider3",
     "Vertical Rank": "slider4",

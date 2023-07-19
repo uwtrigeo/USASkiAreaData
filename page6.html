@@ -179,6 +179,7 @@
 
             var circleColor;
             if (feature.properties[skiStatsColumn] == null) circleColor = '#808080';
+            else if (feature.properties[skiStatsColumn] == "#N/A") circleColor = '#808080';
             else if (feature.properties[skiStatsColumn] <= circleValues[0]) circleColor = '#d53e4f';
             else if (feature.properties[skiStatsColumn] <= circleValues[1]) circleColor = '#fc8d59';
             else if (feature.properties[skiStatsColumn] <= circleValues[2]) circleColor = '#fee08b';
@@ -200,23 +201,23 @@
   
 
     // Map Overlays:
-    var popUpDesc = 'Ski Resort Ranking';
+    var popUpDesc = 'Ski Resort Rank';
     var skiStatsColumn = 'R-TotalScore';
     var sliderNumber = 'slider1';
     var valuesForsliderSize = [0, 30, 60, 90, 120, 150, 180, 210, 250, 300, 330, 365];
     var circleValues = [30, 90, 150, 210, 270];
 
     var totalScoreRank = createMap(popUpDesc, skiStatsColumn, sliderNumber, valuesForsliderSize, circleValues);
-    var beginnerScoreRank = createMap('Beginner Score', 'R_Beginner', 'slider9', valuesForsliderSize, circleValues);
-    var intermediateScoreRank = createMap('Intermediate Score', 'R_Intermediate', 'slider10', valuesForsliderSize, circleValues);
-    var advancedScoreRank = createMap('Advanced Score', 'R-Advanced', 'slider11', valuesForsliderSize, circleValues);
-    var summitScoreRank = createMap('Summit Elevation Score', 'R_summit', 'slider2', valuesForsliderSize, circleValues);
-    var baseScoreRank = createMap('Base Elevation Score', 'R_base', 'slider3', valuesForsliderSize, circleValues);
-    var verticalScoreRank = createMap('Vertical Score', 'R_vertical', 'slider4', valuesForsliderSize, circleValues);
-    var liftScoreRank = createMap('Lifts Score', 'R_lifts', 'slider5', valuesForsliderSize, circleValues);
-    var runsScoreRank = createMap('Runs Score', 'R_runs', 'slider6', valuesForsliderSize, circleValues);
-    var acresScoreRank = createMap('Acres Score', 'R_acres', 'slider7', valuesForsliderSize, circleValues);
-    var snowScoreRank = createMap('Snow Score', 'R_Season_Average', 'slider8', valuesForsliderSize, circleValues);
+    var beginnerScoreRank = createMap('Beginner Rank', 'R_Beginner', 'slider9', valuesForsliderSize, circleValues);
+    var intermediateScoreRank = createMap('Intermediate Rank', 'R_Intermediate', 'slider10', valuesForsliderSize, circleValues);
+    var advancedScoreRank = createMap('Advanced Rank', 'R-Advanced', 'slider11', valuesForsliderSize, circleValues);
+    var summitScoreRank = createMap('Summit Elevation Rank', 'R_summit', 'slider2', valuesForsliderSize, circleValues);
+    var baseScoreRank = createMap('Base Elevation Rank', 'R_base', 'slider3', valuesForsliderSize, circleValues);
+    var verticalScoreRank = createMap('Vertical Rank', 'R_vertical', 'slider4', valuesForsliderSize, circleValues);
+    var liftScoreRank = createMap('Lifts Rank', 'R_lifts', 'slider5', valuesForsliderSize, circleValues);
+    var runsScoreRank = createMap('Runs Rank', 'R_runs', 'slider6', valuesForsliderSize, circleValues);
+    var acresScoreRank = createMap('Acres Rank', 'R_acres', 'slider7', valuesForsliderSize, circleValues);
+    var snowScoreRank = createMap('Snow Rank', 'R_Season_Average', 'slider8', [0, 5, 10, 20, 30, 40, 60, 80, 100, 120, 140, 160], circleValues);
     
 
 

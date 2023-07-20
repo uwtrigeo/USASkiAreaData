@@ -213,19 +213,19 @@
 
       // Overlays
       var overlayMaps = {
-        "Ski Area Size": skiAcres,
-        "Summit Elevation": skiSummit,
-        "Base Elevation": skiBase,
-        "Vertical Drop": skiVertical
+        "Ski Area Size (acres)": skiAcres,
+        "Summit Elevation (feet)": skiSummit,
+        "Base Elevation (feet)": skiBase,
+        "Vertical Drop (feet)": skiVertical
       };
 
       // Grouped Overlays
       var groupedOverlays = {
         "Ski Resort": {
-          "Ski Area Size": skiAcres,
-          "Summit Elevation": skiSummit,
-          "Base Elevation": skiBase,
-          "Vertical Drop": skiVertical
+          "Ski Area Size (acres)": skiAcres,
+          "Summit Elevation (feet)": skiSummit,
+          "Base Elevation (feet)": skiBase,
+          "Vertical Drop (feet)": skiVertical
         }
         
       };
@@ -242,10 +242,10 @@
 
       // Mapping between overlay names and slider IDs
       var overlaySliderMap = {
-        'Ski Area Size': 'slider1',
-        'Summit Elevation': 'slider2',
-        'Base Elevation': 'slider3',
-        'Vertical Drop': 'slider4'
+        'Ski Area Size (acres)': 'slider1',
+        'Summit Elevation  (feet)': 'slider2',
+        'Base Elevation (feet)': 'slider3',
+        'Vertical Drop (feet)': 'slider4'
       };
 
       // Function to handle the display style of the sliders
@@ -282,7 +282,7 @@
 
       // Add base layer and overlay to the map
       baseMaps["Stamen Toner Lite"].addTo(map);
-      overlayMaps["Ski Area Size"].addTo(map);
+      overlayMaps["Ski Area Size (acres)"].addTo(map);
       
       // add scale bar
       L.control.scale().addTo(map);

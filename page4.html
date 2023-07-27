@@ -72,6 +72,9 @@
   <div id="slider5"></div>
   <div id="slider6"></div>
   <div id="slider7"></div>
+  <div id="slider8"></div>
+  <div id="slider9"></div>
+  <div id="slider10"></div>
   <div id="map"></div>
   
 
@@ -182,7 +185,7 @@
             else circleColor = '#737373';
 
             var marker = L.circleMarker(latlng, { radius: circleSize, color: circleColor, weight: 1, opacity: 4, fillOpacity: 0.7 });
-            marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> " + popUpDesc + ": </b>" + feature.properties[skiStatsColumn] + "%</p>");
+            marker.bindPopup("<b> Resort Name: </b>" + feature.properties.resort_name + "<br><b> " + popUpDesc + ": </b>" + feature.properties[skiStatsColumn] + "</p>");
             return marker;
           }
         }).addTo(newMap);
@@ -194,19 +197,22 @@
 
 
     // Map Overlays:
-    var popUpDesc = 'North Aspect';
+    var popUpDesc = 'North Aspect Percentage';
     var skiStatsColumn = 'NorthAspect%';
     var sliderNumber = 'slider1';
     var valuesForsliderSize = [0, 5, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90];
     var circleValues = [5, 25, 50, 75, 80];
 
     var skiNorth = createMap(popUpDesc, skiStatsColumn, sliderNumber, valuesForsliderSize, circleValues);
-    var skiEast = createMap('East Aspect','EastAspect%','slider2', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
-    var skiWest = createMap('West Aspect','WestAspect%','slider3', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
-    var skiSouth = createMap('South Aspect','SouthAspect%','slider4', [0, 5, 10, 20, 30, 40, 50, 55, 60, 70, 80, 100], [5, 25, 50, 75, 80]);
-    var skiGreen = createMap('Green Runs','green_percent','slider5', [0, 5, 10, 15, 20, 30, 40, 50, 55, 60, 70, 100], [5, 25, 50, 75, 80]);
-    var skiBlue = createMap('Blue Runs','blue_percent','slider6', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
-    var skiBlack = createMap('Black Runs','black_percent','slider7', [0, 5, 10, 15, 20, 30, 40, 50, 55, 60, 70, 100], [5, 25, 50, 75, 80]);
+    var skiEast = createMap('East Aspect Percentage','EastAspect%','slider2', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
+    var skiWest = createMap('West Aspect Percentage','WestAspect%','slider3', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
+    var skiSouth = createMap('South Aspect Percentage','SouthAspect%','slider4', [0, 5, 10, 20, 30, 40, 50, 55, 60, 70, 80, 100], [5, 25, 50, 75, 80]);
+    var skiGreen = createMap('Green Runs Percentage','green_percent','slider5', [0, 5, 10, 15, 20, 30, 40, 50, 55, 60, 70, 100], [5, 25, 50, 75, 80]);
+    var skiBlue = createMap('Blue Runs Percentage','blue_percent','slider6', [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 100], [5, 25, 50, 75, 80]);
+    var skiBlack = createMap('Black Runs Percentage','black_percent','slider7', [0, 5, 10, 15, 20, 30, 40, 50, 55, 60, 70, 100], [5, 25, 50, 75, 80]);
+    var acresGreen = createMap('Green Runs Acres','green_acres','slider8', [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000], [50, 150, 250, 400, 600]);
+    var acresBlue = createMap('Blue Runs Acres','blue_acres','slider9', [0, 15, 50, 100, 300, 400, 500, 800, 1000, 1500, 2000, 2500], [100, 200, 500, 1000, 2000]);
+    var acresBlack = createMap('Black Runs Acres','black_acres','slider10', [0, 20, 50, 100, 200, 500, 1000, 1200, 1400, 1600, 2000, 3500], [80, 250, 500, 1000, 2000]);
     
 
 
@@ -221,26 +227,32 @@
 
     // Overlays
     var overlayMaps = {
-      "North Aspect": skiNorth,
-      "East Aspect": skiEast,
-      "West Aspect": skiWest,
-      "South Aspect": skiSouth,
-      "Green Runs": skiGreen,
-      "Blue Runs": skiBlue,
-      "Black Runs": skiBlack
+      "North Aspect Percentage": skiNorth,
+      "East Aspect Percentage": skiEast,
+      "West Aspect Percentage": skiWest,
+      "South Aspect Percentage": skiSouth,
+      "Green Runs Percentage": skiGreen,
+      "Blue Runs Percentage": skiBlue,
+      "Black Runs Percentage": skiBlack,
+      "Green Runs Acres": acresGreen,
+      "Blue Runs Acres": acresBlue,
+      "Black Runs Acres": acresBlack
       
     };
 
     // Grouped Overlays
     var groupedOverlays = {
       "Aspect and Difficulty": {
-        "North Aspect": skiNorth,
-        "East Aspect": skiEast,
-        "West Aspect": skiWest,
-        "South Aspect": skiSouth,
-        "Green Runs": skiGreen,
-        "Blue Runs": skiBlue,
-        "Black Runs": skiBlack
+        "North Aspect Percentage": skiNorth,
+        "East Aspect Percentage": skiEast,
+        "West Aspect Percentage": skiWest,
+        "South Aspect Percentage": skiSouth,
+        "Green Runs Percentage": skiGreen,
+        "Blue Runs Percentage": skiBlue,
+        "Black Runs Percentage": skiBlack,
+        "Green Runs Acres": acresGreen,
+        "Blue Runs Acres": acresBlue,
+        "Black Runs Acres": acresBlack
       },
     };
     var options = {
@@ -256,13 +268,16 @@
 
     // Mapping between overlay names and slider IDs
     var overlaySliderMap = {
-      'North Aspect': 'slider1',
-      'East Aspect': 'slider2',
-      'West Aspect': 'slider3',
-      'South Aspect': 'slider4',
-      'Green Runs': 'slider5',
-      'Blue Runs': 'slider6',
-      'Black Runs': 'slider7'
+      'North Aspect Percentage': 'slider1',
+      'East Aspect Percentage': 'slider2',
+      'West Aspect Percentage': 'slider3',
+      'South Aspect Percentage': 'slider4',
+      'Green Runs Percentage': 'slider5',
+      'Blue Runs Percentage': 'slider6',
+      'Black Runs Percentage': 'slider7',
+      'Green Runs Acres': 'slider8',
+      'Blue Runs Acres': 'slider9',
+      'Black Runs Acres': 'slider10'
         
     };
 
@@ -300,7 +315,7 @@
 
     // Add base layer to the map
     baseMaps["Stamen Toner Lite"].addTo(map);
-    overlayMaps["North Aspect"].addTo(map);
+    overlayMaps["North Aspect Percentage"].addTo(map);
     
     // add scale bar
     L.control.scale().addTo(map);

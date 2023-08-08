@@ -14,14 +14,15 @@
   <!-- no UI slider -->
   <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.4/distribute/nouislider.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.4/distribute/nouislider.min.js"></script>
-  <!-- windy map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- grouped layer control -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
   <script src="https://unpkg.com/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
   <!-- leaflet legend -->
   <link rel="stylesheet" href="legend/leaflet.legend.css" />
 	<script src="legend/leaflet.legend.js"></script>
+  <!-- leaflet-search -->
+  <link rel="stylesheet" href="data/leaflet-search.css" />
+  <script src="data/leaflet-search.js"></script>
 
 </head>
 <body>
@@ -371,6 +372,48 @@
       collapsed: false,
       legends: legends,
     }).addTo(map);
+
+    // Add leaflet.control.search
+    var geoJsonLayer = L.geoJSON(ski_stats, {
+          pointToLayer: function(feature, latlng) {
+              return L.marker(latlng, {opacity: 0.0});  // Create invisible markers
+          }
+      }).addTo(map);
+
+      // Initialize the search control
+      var searchControl = new L.Control.Search({
+          layer: geoJsonLayer,
+          propertyName: 'resort_name',
+          initial: false,
+          zoom: 10,
+          position: 'topleft'
+        
+      });
+
+      searchControl.on('search:locationfound', function(e) {
+          // Display the popup with the desired content
+          var content = "<b> Resort Name: </b>" + e.layer.feature.properties.resort_name;
+          e.layer.bindPopup(content).openPopup();
+
+          // Temporarily make the marker visible when found
+          e.layer.setOpacity(1);
+          
+          // Hide the marker after 2 seconds
+          setTimeout(function() {
+              e.layer.setOpacity(0);
+              e.layer.closePopup();  // Close the popup
+          }, 2000);
+      });
+
+      map.addControl(searchControl);
+
+      // Use setTimeout to ensure the search input is fully rendered modify it
+      setTimeout(function() {
+          var searchInput = document.querySelector('.leaflet-control-search input.search-input');
+          if (searchInput) {
+              searchInput.placeholder = 'Resort Search';
+          }
+      }, 100);  // A delay of 100 milliseconds
 
 
 

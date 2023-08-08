@@ -62,9 +62,16 @@
           container: 'map', // id of your map container
           style: 'mapbox://styles/mapbox/streets-v12', // your map style
           center: [-121.47, 46.93], // starting position
-          zoom: 12 // starting zoom,
+          zoom: 12, // starting zoom
+          attributionControl: false  // Disable default attribution control
+});
 
-      });
+        // Add custom attribution control to the map
+        const customAttribution = 'Map Overlay, Data <a href="https://lidarportal.dnr.wa.gov/">WA Dept of Natural Resources</a>, Analysis ArcGIS PRO <a href="https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/an-overview-of-the-spatial-analyst-toolbox.htm">Slope and Aspect</a> | ';
+        map.addControl(new mapboxgl.AttributionControl({
+            compact: false,
+            customAttribution: customAttribution
+        }));
       
 
       // Add Crystal & Baker to map

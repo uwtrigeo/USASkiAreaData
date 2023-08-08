@@ -383,7 +383,7 @@
       // Initialize the search control
       var searchControl = new L.Control.Search({
           layer: geoJsonLayer,
-          propertyName: 'resort_name',
+          propertyName: 'resort_state',
           initial: false,
           zoom: 10,
           position: 'topleft'
@@ -392,7 +392,7 @@
 
       searchControl.on('search:locationfound', function(e) {
           // Display the popup with the desired content
-          var content = "<b> Resort Name: </b>" + e.layer.feature.properties.resort_name;
+          var content = "<b> Resort Name: </b>" + e.layer.feature.properties.resort_state;
           e.layer.bindPopup(content).openPopup();
 
           // Temporarily make the marker visible when found

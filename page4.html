@@ -84,9 +84,9 @@
     var customAttributionPrefix = 'Overlay Data Sources <a href="https://nsaa.org/">NSAA</a>, <a href="https://www.onthesnow.com/">OnTheSnow</a>, <a href="https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4#file-ski_resort_stats-csv/">Eric Wiseman</a> | ';
       
     // Add basemaps
-    // Stamen_TonerLite
-    var Stamen_TonerLite = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.{ext}', {
-        attribution: customAttributionPrefix + 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    // CartoDB
+    var CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         minZoom: 0,
         maxZoom: 20,
@@ -223,7 +223,7 @@
     // Layer control groups
     // Base maps
     var baseMaps = {
-      "Stamen Toner Lite": Stamen_TonerLite,
+      "CartoDB": CartoDB_Positron,
       "OpenStreetMap": OSM,
       "OSM Topo": OpenTopoMap,
       "Esri World Imagery": Esri_WorldImagery
@@ -318,7 +318,7 @@
     var layerControl = L.control.groupedLayers(baseMaps, groupedOverlays, options).addTo(map);
 
     // Add base layer to the map
-    baseMaps["Stamen Toner Lite"].addTo(map);
+    baseMaps["CartoDB"].addTo(map);
     overlayMaps["Green Runs Percentage"].addTo(map);
     
     // add scale bar
